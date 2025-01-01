@@ -1,0 +1,35 @@
+name: download-from-nodefree
+
+on:
+  schedule:
+    - cron: '30 10 * * *'  # 每天午夜运行
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  download-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Download file
+      run: |
+        # DATE=$(date +%Y%m%d)
+        # URL="http://example.com/file_${DATE}.zip"
+        DATE=$(date +%Y/%m/%Y%m%d)
+        URL="https://nodefree.githubrowcontent.com/${DATE}.yaml"
+        curl -L $URL -o nodefree.yaml
+
+    - name: Upload file to repository
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git nodefree.yaml
+        git commit -m "Add file from URL"
+        git push origin main
