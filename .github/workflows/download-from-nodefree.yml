@@ -2,8 +2,8 @@ name: download-from-nodefree
 
 on:
   schedule:
-    # 每天北京时间10:30运行
-    - cron: '30 2 * * *'
+    # 每天北京时间10:35运行
+    - cron: '35 2 * * *'
   # 允许手动触发
   workflow_dispatch:  
 
